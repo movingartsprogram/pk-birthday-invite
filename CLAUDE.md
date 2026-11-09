@@ -6,7 +6,8 @@ Served by GitHub Pages from `main`. Public repo — no private guest details in 
 ## Flow
 1. Pink + fluorescent-green envelope (tap to open).
 2. Scratch card reveals PK with the gramophone (`pk.jpg`), title "Another year, another invite".
-3. The handmade diary flipbook (`img/p00.jpg`–`img/p18.jpg`, cover → back), 0.5 s page turns.
+3. The handmade diary as a spiral-bound notebook: uniform cream pages with punched holes
+   (`img/p00.jpg`–`img/p18.jpg`, cover → back) turning on a CSS coil, 0.5 s page turns.
 4. Fluorescent-green pages, pink handwriting: the message, then 17 Nov + PEOPLE logo (`people.jpg`),
    "With whole lotta love, PK", winking smiley that laughs with `laugh.m4a` / `laugh.mp3`.
 

@@ -193,7 +193,18 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .leaf.flipped{transform: rotateY(-180deg)}
 .face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow:hidden; border-radius:2px 6px 6px 2px; background:#f4eee2}
 .face img{width:100%; height:100%; object-fit:cover; display:block; pointer-events:none}
-.front::after{content:""; position:absolute; inset:0; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,.28) 0, rgba(0,0,0,.08) 4%, transparent 9%)}
+.front::after{content:""; position:absolute; inset:0; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,.14) 0, transparent 7%)}
+/* spiral coil — rings sit over the punched holes baked into each page (x 3.8%, y 5%→95%) */
+.coil{position:absolute; left:0; top:0; height:100%; width:0; z-index:500; transform: translateZ(2px); pointer-events:none}
+.ring{
+  position:absolute; left:-15px; width:calc(15px + var(--w) * .052); height:13px; margin-top:-6.5px;
+  border-radius:50%; border:3.5px solid transparent;
+  background: linear-gradient(#0000,#0000) padding-box,
+              linear-gradient(180deg,#fdfdfd 0%,#b9bcc4 35%,#5d6068 60%,#c9ccd3 85%,#7b7e86 100%) border-box;
+  transform: rotate(-14deg);
+  box-shadow: 1px 2px 2px rgba(0,0,0,.35);
+  -webkit-mask: linear-gradient(#000 0 0) border-box, linear-gradient(#000 0 0) padding-box; -webkit-mask-composite: xor; mask-composite: exclude;
+}
 .back{transform: rotateY(180deg); background: linear-gradient(270deg, rgba(0,0,0,.25) 0, transparent 8%), radial-gradient(circle at 30% 20%, #fbf7ee, #ece2cf)}
 .leaf.turning .front::before, .leaf.turning .back::before{
   content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
@@ -328,7 +339,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 <section class="scene night grain" id="s-diary">
   <div class="d-head">made by hand, for me</div>
   <div class="d-sub" id="dSub">tap or swipe to turn the page</div>
-  <div class="stage" id="stage"><div class="book" id="book"><div class="board"></div><div class="block" id="block"></div></div></div>
+  <div class="stage" id="stage"><div class="book" id="book"><div class="board"></div><div class="block" id="block"></div><div class="coil" id="coil"></div></div></div>
   <div class="d-bar">
     <button class="nav" id="prev" aria-label="Previous page">‹</button>
     <div class="d-count" id="count"></div>
@@ -442,6 +453,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
       book.appendChild(leaf); leaves.push(leaf);
     }
   }
+  (function(){ const c = $('#coil'); for (let k = 0; k < 22; k++) { const r = document.createElement('i'); r.className = 'ring'; r.style.top = (5 + k * 90 / 21) + '%'; c.appendChild(r); } })();
   function thick(){ block.style.setProperty('--thick', Math.max(2, (N - cur) * .9) + 'px'); }
   function layout(){
     leaves.forEach((l, i) => {
