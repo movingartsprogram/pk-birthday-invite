@@ -9,7 +9,16 @@ Served by GitHub Pages from `main`. Public repo — no private guest details in 
 3. The handmade diary as a spiral-bound notebook: uniform cream pages with punched holes
    (`img/p00.jpg`–`img/p18.jpg`, cover → back) turning on a CSS coil, 0.5 s page turns.
 4. Fluorescent-green pages, pink handwriting: the message, then 17 Nov + PEOPLE logo (`people.jpg`),
-   "With whole lotta love, PK", winking smiley that laughs with `laugh.m4a` / `laugh.mp3`.
+   venue "Waadi Beach, Benaulim" (Google Maps link) under the logo,
+   "With whole lotta love, PK", winking smiley that laughs with `laugh.m4a` / `laugh.mp3`,
+   then a blinking pink buzzer "I'M COMING!" — buzz sound + vibration, opens WhatsApp with
+   "Yess, Bruh, I am coming..." (+ guest name). `PK_WHATSAPP` in index.html holds PK's number.
+5. Music: `music.mp3` (Elvis Lobo guitar) starts on the first scratch, ducks under the laugh,
+   fades out when the buzzer appears.
+
+Diary heading: "This card was made with love by Karen". A dog-ear "flip fast" button in the
+diary's bottom-right corner whizzes through to the last two pages; normal turns stay 0.5 s.
+Image URLs carry `?v=N` for cache-busting — bump it when images change.
 
 ## Ground rules
 - One page, no build step. Media are separate files, never inline base64.
@@ -18,4 +27,5 @@ Served by GitHub Pages from `main`. Public repo — no private guest details in 
 - PK's wording in the messages is his own — don't rewrite it.
 
 ## Still open
-- Venue address / map link (only the PEOPLE logo is shown).
+- `music.mp3` (Elvis Lobo guitar track) not yet added.
+- `PK_WHATSAPP` number not yet set — until then the buzzer opens WhatsApp's contact picker.
