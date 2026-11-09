@@ -11,7 +11,7 @@ Served by GitHub Pages from `main`. Public repo — no private guest details in 
 4. Fluorescent-green pages, pink handwriting: the message, then 17 Nov + PEOPLE logo (`people.jpg`),
    venue "Waadi Beach, Benaulim" (Google Maps link) under the logo,
    "With whole lotta love, PK", winking smiley that laughs with `laugh.m4a` / `laugh.mp3`,
-   then a blinking pink buzzer "I'M COMING!" — buzz sound + vibration, opens WhatsApp with
+   then (page turn) a one-screen buzzer page: blinking pink "I'M COMING!" — buzz sound + vibration, opens WhatsApp with
    "Yess, Bruh, I am coming..." (+ guest name). `PK_WHATSAPP` in index.html holds PK's number.
 5. Sound: scratching the photo makes a scratch noise (Web Audio). `music.mp3` — Elvis Lobo's guitar,
    the audio of `feni-trail-reel.mp4` from `feni-trail-edition-2` — comes in when the photo is fully

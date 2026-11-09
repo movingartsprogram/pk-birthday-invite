@@ -254,8 +254,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 }
 .hw.w{animation: write var(--d,1.6s) steps(28,end) forwards; animation-delay: var(--t,0s)}
 @keyframes write{to{clip-path: inset(-20% -5% -20% 0)}}
-.hw.sm{font-size: clamp(26px, 7vw, 38px)}
-.hw.xl{font-family:var(--neon); font-weight:400; font-size: clamp(64px, 19vw, 104px); line-height:1; color:var(--pink-deep); text-shadow: 0 3px 0 rgba(120,0,60,.35)}
+.hw.sm{font-size: clamp(22px, min(6.6vw, 3.9svh), 38px)}
+.hw.xl{font-family:var(--neon); font-weight:400; font-size: clamp(54px, min(17vw, 9svh), 104px); line-height:1; color:var(--pink-deep); text-shadow: 0 3px 0 rgba(120,0,60,.35)}
 .hw + .hw{margin-top:.25em}
 .ind{margin-left:1.2em}
 
@@ -263,7 +263,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .final .hw{transform:none}
 .datebox{position:relative; margin: 10px 0 4px; display:flex; flex-direction:column; align-items:center}
 .people{
-  width:min(84vw, 420px); border-radius:14px; display:block;
+  width:min(80vw, 400px, 52svh); border-radius:14px; display:block;
   box-shadow: 0 0 0 4px var(--pink), 0 14px 30px rgba(0,60,0,.35);
   transform: scale(.4) rotate(-8deg); opacity:0; transition: transform .8s cubic-bezier(.3,1.6,.5,1), opacity .5s ease;
   margin-bottom:8px;
@@ -272,13 +272,13 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .venue{font-family:var(--hand); font-weight:700; font-size: clamp(26px,7vw,36px); color:var(--pink-ink); text-decoration:none;
   opacity:0; transform: translateY(8px); transition: all .6s ease .5s; margin-bottom:2px; border-bottom:2px dashed rgba(212,0,111,.45)}
 .people.in + .venue{opacity:1; transform:none}
-.sig{font-family:var(--neon) !important; font-weight:400 !important; font-size: clamp(56px, 16vw, 84px) !important}
+.sig{font-family:var(--neon) !important; font-weight:400 !important; font-size: clamp(46px, min(14vw, 7svh), 84px) !important}
 
 /* winking / laughing smiley */
 .gift{display:flex; align-items:center; gap:14px; margin-top:10px; opacity:0; transform:translateY(16px); transition: all .7s ease}
 .gift.in{opacity:1; transform:none}
 .gift p{font-family:var(--hand); font-weight:700; color:var(--pink-ink); font-size: clamp(26px,7vw,36px); text-align:left; line-height:1}
-#smiley{width:clamp(96px, 26vw, 130px); flex:0 0 auto; cursor:pointer; filter: drop-shadow(0 6px 10px rgba(0,60,0,.35)); overflow:visible}
+#smiley{width:clamp(80px, min(24vw, 13svh), 130px); flex:0 0 auto; cursor:pointer; filter: drop-shadow(0 6px 10px rgba(0,60,0,.35)); overflow:visible}
 #smiley .laugh{display:none}
 #smiley.laughing .wink{display:none}
 #smiley.laughing .laugh{display:inline}
@@ -296,7 +296,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 @keyframes tear{0%{opacity:1; transform:translate(0,0)}100%{opacity:0; transform:translate(var(--tx),26px)}}
 #smiley .wink-eye{transform-origin: 70px 46px; animation: winky 2.4s ease-in-out infinite}
 @keyframes winky{0%,70%,100%{transform:scaleY(1)}80%{transform:scaleY(.2)}}
-.buzzwrap{display:flex; flex-direction:column; align-items:center; margin-top:18px; opacity:0; transform: scale(.6); transition: all .6s cubic-bezier(.3,1.6,.5,1)}
+.buzzwrap{display:flex; flex-direction:column; align-items:center; text-align:center; opacity:0; transform: scale(.6); transition: all .6s cubic-bezier(.3,1.6,.5,1)}
 .buzzwrap.in{opacity:1; transform:none}
 .buzzer{
   width:clamp(170px, 52vw, 230px); aspect-ratio:1; border-radius:50%;
@@ -625,25 +625,24 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
     await wait(1800);
     laughNow();
 
-    // the buzzer
-    await wait(2200);
+    // the buzzer gets its own page — a fresh sheet, nothing to scroll
+    await wait(3800);
     if (musicOn) musicFade(0, 1800, true);
-    const bz = document.createElement('div'); bz.className = 'buzzwrap';
+    s = await turnTo(s);
+    const bz = document.createElement('div'); bz.className = 'msg buzzwrap'; s.appendChild(bz);
     bz.innerHTML = '<div class="buzz-cue">To confirm you\'re coming,<br><b>press the buzzer!</b><i>👇</i></div>' +
       '<button class="buzzer" id="buzz"><span>I\'M<br>COMING!</span></button>' +
       '<div class="buzz-note" id="buzzNote">it sends PK a WhatsApp</div>';
-    f.appendChild(bz);
     await wait(60); bz.classList.add('in');
-    setTimeout(() => { try { bz.scrollIntoView({behavior:'smooth', block:'center'}); } catch(e){} }, 400);
     bz.querySelector('#buzz').onclick = pressBuzzer;
 
     const after = document.createElement('div'); after.className = 'after';
     after.innerHTML =
       '<a class="btn pink" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=' +
-      encodeURIComponent("PK's birthday") + '&dates=20261117T123000Z/20261117T183000Z&details=' +
+      encodeURIComponent("PK's birthday") + '&dates=20261117T123000Z/20261117T183000Z&location=' + encodeURIComponent('Waadi Beach, Benaulim, Goa') + '&details=' +
       encodeURIComponent('Another year, another invite. Sunset onwards. With whole lotta love, PK') + '">save the date</a>' +
       '<button class="btn ghost" id="again">play it again ↺</button>';
-    f.appendChild(after);
+    bz.appendChild(after);
     await wait(1200); after.classList.add('in');
     after.querySelector('#again').onclick = () => location.reload();
   }
