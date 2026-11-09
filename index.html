@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Another year, another invite — PK</title>
+<meta name="description" content="Another year, another invite. 17 Nov, sunset onwards. With whole lotta love, PK.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Another year, another invite 💌">
+<meta property="og:description" content="You've got mail from PK. Open it.">
+<meta property="og:image" content="https://movingartsprogram.github.io/pk-birthday-invite/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://movingartsprogram.github.io/pk-birthday-invite/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1a0420">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ff2e97; --pink-deep:#e0007a; --pink-ink:#d4006f;
+  --green:#39ff14; --green-soft:#7dff5a;
+  --night:#1a0420; --paper:#fff7ee;
+  --hand:'Caveat', 'Comic Sans MS', cursive;
+  --neon:'Yellowtail', 'Caveat', cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--night); color:var(--paper); font-family:var(--hand);
+  overflow:hidden; -webkit-tap-highlight-color:transparent;
+  user-select:none; -webkit-user-select:none;
+}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.scene{
+  position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  opacity:0; visibility:hidden; transition: opacity .7s ease, visibility 0s linear .7s;
+}
+.scene.on{opacity:1; visibility:visible; transition: opacity .7s ease, visibility 0s}
+
+/* night backdrop with neon haze */
+.night{
+  background:
+    radial-gradient(60% 40% at 20% 15%, rgba(255,46,151,.28), transparent 70%),
+    radial-gradient(55% 40% at 85% 85%, rgba(57,255,20,.20), transparent 70%),
+    radial-gradient(120% 90% at 50% 50%, #2a0733, #12020f 75%);
+}
+.grain::before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.18; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ---------- mute toggle ---------- */
+#mute{
+  position:fixed; z-index:50; top:max(12px, env(safe-area-inset-top)); right:12px;
+  width:40px; height:40px; border-radius:50%; background:rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.25); font-size:18px; display:none;
+}
+
+/* ---------- 1. ENVELOPE ---------- */
+.env-wrap{position:relative; width:min(88vw, 440px); aspect-ratio: 1.45; perspective:1400px; margin-top:4vh}
+.env-to{
+  font-size: clamp(30px, 8vw, 40px); color:var(--green); margin-bottom:6vh; text-align:center;
+  text-shadow: 0 0 8px rgba(57,255,20,.7), 0 0 22px rgba(57,255,20,.35);
+  transform: rotate(-3deg);
+}
+.env{position:absolute; inset:0; transform-style:preserve-3d; animation: bob 3.2s ease-in-out infinite}
+@keyframes bob{50%{transform: translateY(-8px) rotate(-.6deg)}}
+.env.opening{animation:none}
+.env-back{
+  position:absolute; inset:0; border-radius:10px;
+  background: linear-gradient(160deg, #c4006a, #8e004c);
+  box-shadow: 0 30px 60px rgba(0,0,0,.55), 0 0 40px rgba(255,46,151,.35);
+}
+.env-liner{ /* green liner visible when flap opens */
+  position:absolute; inset:6px 6px auto 6px; height:62%;
+  clip-path: polygon(0 0, 100% 0, 50% 92%);
+  background: repeating-linear-gradient(45deg, var(--green) 0 10px, #2bd80c 10px 20px);
+  opacity:.95;
+}
+.letter{
+  position:absolute; left:6%; right:6%; top:8%; height:84%;
+  background:var(--paper); border-radius:6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.25);
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  color:var(--pink-ink); transition: transform .9s cubic-bezier(.3,.7,.2,1);
+  overflow:hidden;
+}
+.letter .l-photo{width:100%; height:62%; background:url(pk.jpg) center 35%/cover; filter:blur(6px) saturate(1.2); opacity:.6}
+.letter .l-txt{font-family:var(--neon); font-size: clamp(20px,6vw,28px); padding:8px}
+.env-front{position:absolute; inset:0; pointer-events:none}
+.env-front .side{position:absolute; inset:0; border-radius:10px}
+.env-front .l{clip-path: polygon(0 0, 52% 54%, 0 100%); background:linear-gradient(90deg,#ff3fa0,#f02a8e)}
+.env-front .r{clip-path: polygon(100% 0, 48% 54%, 100% 100%); background:linear-gradient(270deg,#ff3fa0,#f02a8e)}
+.env-front .b{clip-path: polygon(0 100%, 50% 46%, 100% 100%); background:linear-gradient(0deg,#ff52ab,#ff2e97)}
+.env-front .b::after{ /* subtle fold lines */
+  content:""; position:absolute; inset:0; background:linear-gradient(0deg, transparent 0 60%, rgba(0,0,0,.06));
+}
+.env-addr{
+  position:absolute; left:0; right:0; bottom:9%; text-align:center; z-index:4;
+  font-family:var(--neon); color:#fff; font-size: clamp(18px,5vw,24px);
+  text-shadow: 0 1px 0 rgba(0,0,0,.25);
+}
+.flap{
+  position:absolute; left:0; right:0; top:0; height:60%; z-index:5;
+  transform-origin: top center; transform: rotateX(0deg);
+  transition: transform .65s cubic-bezier(.5,.1,.3,1), z-index 0s linear .32s;
+  transform-style:preserve-3d;
+}
+.flap .f-out, .flap .f-in{
+  position:absolute; inset:0; clip-path: polygon(0 0, 100% 0, 50% 100%);
+  backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:10px 10px 0 0;
+}
+.flap .f-out{background: linear-gradient(180deg, var(--green), #1fd400); box-shadow: inset 0 0 0 2px rgba(0,0,0,.05)}
+.flap .f-in{transform: rotateX(180deg); background: repeating-linear-gradient(45deg, #ff7cc0 0 10px, #ff5fb1 10px 20px)}
+.env.open .flap{transform: rotateX(180deg); z-index:1}
+.seal{
+  position:absolute; z-index:6; left:50%; top:60%; width:22%; aspect-ratio:1; transform: translate(-50%,-50%);
+  border-radius:50%; display:grid; place-items:center;
+  background: radial-gradient(circle at 35% 30%, #ff7cc0, var(--pink) 45%, #b8005f);
+  box-shadow: 0 4px 10px rgba(0,0,0,.35), inset 0 -3px 6px rgba(0,0,0,.25), 0 0 0 3px rgba(255,255,255,.12);
+  font-family:var(--neon); color:var(--green); font-size: clamp(22px, 7vw, 34px);
+  text-shadow: 0 0 6px rgba(57,255,20,.8);
+  transition: transform .35s ease, opacity .35s ease;
+}
+.env.open .seal{transform: translate(-50%,-50%) scale(0) rotate(90deg); opacity:0}
+.env.out .letter{transform: translateY(-62%)}
+.tap-hint{
+  margin-top:7vh; font-size:24px; color:#ffd2ea; opacity:.9; letter-spacing:.5px;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse{50%{opacity:.35}}
+
+/* ---------- 2. SCRATCH ---------- */
+.s-title{
+  font-family:var(--neon); text-align:center; line-height:.95;
+  font-size: clamp(42px, 12vw, 70px); color:var(--pink);
+  text-shadow: 0 0 6px rgba(255,46,151,.9), 0 0 24px rgba(255,46,151,.55), 0 0 2px #fff;
+  transform: rotate(-4deg); margin-bottom: 4vh;
+}
+.s-title span{display:block; color:var(--green); text-shadow:0 0 6px rgba(57,255,20,.9), 0 0 24px rgba(57,255,20,.5), 0 0 2px #fff; margin-left:18%}
+.s-card{
+  position:relative; width:min(92vw, 560px); aspect-ratio: 1.61; border-radius:14px; overflow:hidden;
+  box-shadow: 0 0 0 4px var(--pink), 0 0 0 7px var(--green), 0 0 40px rgba(255,46,151,.45), 0 30px 60px rgba(0,0,0,.6);
+  transform: rotate(1.2deg);
+}
+.s-card img{width:100%; height:100%; object-fit:cover; display:block}
+.s-card canvas{position:absolute; inset:0; width:100%; height:100%; touch-action:none; transition: opacity .8s ease}
+.s-card.done canvas{opacity:0; pointer-events:none}
+.s-card.done{animation: glowpop 1.2s ease}
+@keyframes glowpop{30%{box-shadow:0 0 0 4px var(--pink),0 0 0 7px var(--green),0 0 90px rgba(57,255,20,.9),0 30px 60px rgba(0,0,0,.6)}}
+.s-under{min-height:90px; margin-top:4vh; display:flex; flex-direction:column; align-items:center; gap:10px}
+.s-help{font-size:22px; color:#ffd2ea; animation: pulse 1.6s ease-in-out infinite}
+.btn{
+  font-family:var(--hand); font-size:26px; font-weight:700; padding:10px 26px; border-radius:999px;
+  color:#14000f; background:var(--green); box-shadow: 0 0 18px rgba(57,255,20,.6), 0 6px 0 #1a9c05;
+  transition: transform .15s ease;
+}
+.btn:active{transform: translateY(3px); box-shadow: 0 0 18px rgba(57,255,20,.6), 0 3px 0 #1a9c05}
+.btn.pink{background:var(--pink); color:#fff; box-shadow: 0 0 18px rgba(255,46,151,.6), 0 6px 0 #a3004f}
+.btn.ghost{background:transparent; color:inherit; box-shadow:none; border:2px solid currentColor; font-size:22px; padding:6px 18px}
+.hide{display:none !important}
+.fadein{animation: fadein .8s ease both}
+@keyframes fadein{from{opacity:0; transform:translateY(10px)}}
+
+/* ---------- 3. DIARY ---------- */
+.d-head{font-family:var(--neon); font-size: clamp(28px,8vw,40px); color:var(--green); text-shadow:0 0 10px rgba(57,255,20,.6); margin-bottom:1.5vh; text-align:center}
+.d-sub{font-size:20px; color:#ffd2ea; opacity:.85; height:24px; margin-bottom:1vh; text-align:center}
+.stage{position:relative; width:100%; display:flex; justify-content:center; perspective:2200px; padding: 6px 0 20px}
+.book{
+  --w: min(78vw, calc((100svh - 230px) * .6667), 460px);
+  position:relative; width:var(--w); height:calc(var(--w) * 1.5); transform-style:preserve-3d;
+}
+.board{
+  position:absolute; left:-4px; top:-4px; width:calc(100% + 18px); height:calc(100% + 18px);
+  background:linear-gradient(135deg,#ff2e97,#a3004f); border-radius:3px 10px 10px 3px;
+  box-shadow: 0 30px 50px rgba(0,0,0,.6), 0 0 40px rgba(255,46,151,.35);
+  transform: translateZ(-4px);
+}
+.block{
+  position:absolute; left:0; top:0; height:100%; width:calc(100% + var(--thick,10px));
+  background: repeating-linear-gradient(90deg,#efe6d2 0 1px,#d9ccb2 1px 2px) right/var(--thick,10px) 100% no-repeat;
+  border-radius:0 4px 4px 0; transform: translateZ(-2px);
+}
+.block::after{
+  content:""; position:absolute; left:2px; right:0; bottom:calc(var(--thick,10px) * -.7); height:calc(var(--thick,10px) * .7);
+  background: repeating-linear-gradient(180deg,#efe6d2 0 1px,#d4c6aa 1px 2px); border-radius:0 0 4px 2px;
+  transform-origin:top; transform: skewX(-35deg);
+}
+.leaf{position:absolute; inset:0; transform-origin:left center; transform-style:preserve-3d; transition: transform .5s cubic-bezier(.45,.05,.25,1); cursor:pointer}
+.leaf.flipped{transform: rotateY(-180deg)}
+.face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow:hidden; border-radius:2px 6px 6px 2px; background:#f4eee2}
+.face img{width:100%; height:100%; object-fit:cover; display:block; pointer-events:none}
+.front::after{content:""; position:absolute; inset:0; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,.28) 0, rgba(0,0,0,.08) 4%, transparent 9%)}
+.back{transform: rotateY(180deg); background: linear-gradient(270deg, rgba(0,0,0,.25) 0, transparent 8%), radial-gradient(circle at 30% 20%, #fbf7ee, #ece2cf)}
+.leaf.turning .front::before, .leaf.turning .back::before{
+  content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+  background: linear-gradient(90deg, transparent 30%, rgba(0,0,0,.25)); animation: shade .5s ease forwards;
+}
+@keyframes shade{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+.d-bar{display:flex; align-items:center; gap:18px}
+.d-bar button.nav{font-size:28px; width:50px; height:50px; border-radius:50%; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.2); line-height:1}
+.d-bar button.nav:disabled{opacity:.25}
+.d-count{font-size:24px; min-width:96px; text-align:center}
+.skip{position:absolute; top:max(14px, env(safe-area-inset-top)); left:14px; font-size:20px; color:#ffd2ea; opacity:.6}
+#toNotes{position:absolute; bottom: max(18px, env(safe-area-inset-bottom)); }
+
+/* ---------- 4. NOTES on fluorescent green ---------- */
+#notes{padding:0; background:var(--night); perspective:2000px}
+.sheet{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding: max(28px, env(safe-area-inset-top)) 28px max(28px, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(120% 80% at 50% 40%, #6dff4a 0%, var(--green) 55%, #22d400 100%);
+  transform-origin:left center; transition: transform .9s cubic-bezier(.5,.05,.25,1), filter .9s ease;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow-y:auto; overflow-x:hidden;
+}
+.sheet::before{ /* paper grain + faint diary rules */
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 46px, rgba(0,90,0,.10) 46px 47px),
+    linear-gradient(90deg, transparent 0 9%, rgba(255,46,151,.35) 9% calc(9% + 2px), transparent calc(9% + 2px));
+  opacity:.6;
+}
+.sheet::after{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.22; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .35  0 0 0 0 .1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.sheet.turn{transform: rotateY(-120deg); filter:brightness(.6)}
+.sheet .msg{position:relative; z-index:1; width:min(100%, 520px); transition: opacity .9s ease}
+.sheet .msg.gone{opacity:0}
+.hw{
+  display:block; font-family:var(--hand); font-weight:700; color:var(--pink-ink);
+  font-size: clamp(34px, 9.4vw, 52px); line-height:1.08;
+  text-shadow: 0 1px 0 rgba(120,0,60,.35), 0 0 14px rgba(255,255,255,.25);
+  clip-path: inset(-20% 100% -20% 0); transform: rotate(-1.5deg);
+}
+.hw.w{animation: write var(--d,1.6s) steps(28,end) forwards; animation-delay: var(--t,0s)}
+@keyframes write{to{clip-path: inset(-20% -5% -20% 0)}}
+.hw.sm{font-size: clamp(26px, 7vw, 38px)}
+.hw.xl{font-family:var(--neon); font-weight:400; font-size: clamp(64px, 19vw, 104px); line-height:1; color:var(--pink-deep); text-shadow: 0 3px 0 rgba(120,0,60,.35)}
+.hw + .hw{margin-top:.25em}
+.ind{margin-left:1.2em}
+
+.final{display:flex; flex-direction:column; align-items:center; text-align:center; gap:2px}
+.final .hw{transform:none}
+.datebox{position:relative; margin: 10px 0 4px; display:flex; flex-direction:column; align-items:center}
+.people{
+  width:min(84vw, 420px); border-radius:14px; display:block;
+  box-shadow: 0 0 0 4px var(--pink), 0 14px 30px rgba(0,60,0,.35);
+  transform: scale(.4) rotate(-8deg); opacity:0; transition: transform .8s cubic-bezier(.3,1.6,.5,1), opacity .5s ease;
+  margin-bottom:8px;
+}
+.people.in{transform: scale(1) rotate(-2deg); opacity:1}
+.sig{font-family:var(--neon) !important; font-weight:400 !important; font-size: clamp(56px, 16vw, 84px) !important}
+
+/* winking / laughing smiley */
+.gift{display:flex; align-items:center; gap:14px; margin-top:10px; opacity:0; transform:translateY(16px); transition: all .7s ease}
+.gift.in{opacity:1; transform:none}
+.gift p{font-family:var(--hand); font-weight:700; color:var(--pink-ink); font-size: clamp(26px,7vw,36px); text-align:left; line-height:1}
+#smiley{width:clamp(96px, 26vw, 130px); flex:0 0 auto; cursor:pointer; filter: drop-shadow(0 6px 10px rgba(0,60,0,.35)); overflow:visible}
+#smiley .laugh{display:none}
+#smiley.laughing .wink{display:none}
+#smiley.laughing .laugh{display:inline}
+#smiley.laughing{animation: guffaw .32s ease-in-out infinite}
+@keyframes guffaw{
+  0%{transform: rotate(-10deg) scale(1.05) translateY(0)}
+  25%{transform: rotate(8deg) scale(1.12) translateY(-10px)}
+  50%{transform: rotate(-6deg) scale(1.02) translateY(2px)}
+  75%{transform: rotate(12deg) scale(1.1) translateY(-8px)}
+  100%{transform: rotate(-10deg) scale(1.05) translateY(0)}
+}
+#smiley .tear{opacity:0}
+#smiley.laughing .tear{animation: tear .6s ease-in infinite}
+#smiley.laughing .tear.r{animation-delay:.3s}
+@keyframes tear{0%{opacity:1; transform:translate(0,0)}100%{opacity:0; transform:translate(var(--tx),26px)}}
+#smiley .wink-eye{transform-origin: 70px 46px; animation: winky 2.4s ease-in-out infinite}
+@keyframes winky{0%,70%,100%{transform:scaleY(1)}80%{transform:scaleY(.2)}}
+.after{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:18px; opacity:0; transition: opacity .8s ease}
+.after.in{opacity:1}
+.after .btn{font-size:20px; padding:8px 18px}
+.after .btn.ghost{color:var(--pink-ink); border-color:var(--pink-ink)}
+#confetti{position:fixed; inset:0; pointer-events:none; z-index:40}
+.tapnext{position:absolute; z-index:2; bottom:max(16px, env(safe-area-inset-bottom)); left:0; right:0; text-align:center; font-size:20px; color:rgba(120,0,60,.55)}
+@media (prefers-reduced-motion: reduce){
+  .env{animation:none} .hw.w{animation-duration:.01s}
+}
+</style>
+</head>
+<body>
+
+<button id="mute" aria-label="Sound on or off">🔊</button>
+<canvas id="confetti"></canvas>
+
+<!-- 1. Envelope -->
+<section class="scene night grain on" id="s-env">
+  <div class="env-to" id="envTo">You've got mail!</div>
+  <div class="env-wrap" id="envWrap" role="button" aria-label="Open the envelope">
+    <div class="env" id="env">
+      <div class="env-back"></div>
+      <div class="env-liner"></div>
+      <div class="letter"><div class="l-photo"></div><div class="l-txt">another year…</div></div>
+      <div class="env-front"><div class="side l"></div><div class="side r"></div><div class="side b"></div></div>
+      <div class="env-addr" id="envAddr">for you, with love</div>
+      <div class="flap"><div class="f-out"></div><div class="f-in"></div></div>
+      <div class="seal">PK</div>
+    </div>
+  </div>
+  <div class="tap-hint" id="tapHint">tap to open</div>
+</section>
+
+<!-- 2. Scratch reveal -->
+<section class="scene night grain" id="s-scratch">
+  <h1 class="s-title">Another year,<span>another invite</span></h1>
+  <div class="s-card" id="scard">
+    <img src="pk.jpg" alt="PK with the gramophone">
+    <canvas id="foil"></canvas>
+  </div>
+  <div class="s-under">
+    <div class="s-help" id="sHelp">scratch it with your finger ✦</div>
+    <button class="btn hide" id="toDiary">open the diary →</button>
+  </div>
+</section>
+
+<!-- 3. Diary -->
+<section class="scene night grain" id="s-diary">
+  <div class="d-head">made by hand, for me</div>
+  <div class="d-sub" id="dSub">tap or swipe to turn the page</div>
+  <div class="stage" id="stage"><div class="book" id="book"><div class="board"></div><div class="block" id="block"></div></div></div>
+  <div class="d-bar">
+    <button class="nav" id="prev" aria-label="Previous page">‹</button>
+    <div class="d-count" id="count"></div>
+    <button class="nav" id="next" aria-label="Next page">›</button>
+  </div>
+  <button class="btn pink hide fadein" id="toNotes">and so… →</button>
+  <button id="skipDiary" class="skip">skip ›</button>
+</section>
+
+<!-- 4. Notes -->
+<section class="scene" id="notes"></section>
+
+<audio id="laugh" preload="auto">
+  <source src="laugh.m4a" type="audio/mp4">
+  <source src="laugh.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const show = id => { document.querySelectorAll('.scene').forEach(s => s.classList.toggle('on', s.id === id)); };
+
+  /* ---------- guest name (?to=Name) ---------- */
+  let guest = '';
+  try { guest = (new URLSearchParams(location.search).get('to') || '').trim().slice(0, 40); } catch(e){}
+  if (guest) { $('#envTo').textContent = 'Dear ' + guest + ','; $('#envAddr').textContent = 'for ' + guest; }
+
+  /* ---------- sound ---------- */
+  const laugh = $('#laugh'); let muted = false;
+  const muteBtn = $('#mute');
+  muteBtn.onclick = () => { muted = !muted; laugh.muted = muted; muteBtn.textContent = muted ? '🔇' : '🔊'; };
+  function unlockAudio(){
+    try { laugh.muted = true; const p = laugh.play(); if (p) p.then(() => { laugh.pause(); laugh.currentTime = 0; laugh.muted = muted; }).catch(() => { laugh.muted = muted; }); } catch(e){}
+  }
+
+  /* ---------- 1. envelope ---------- */
+  let opened = false;
+  $('#envWrap').addEventListener('click', async () => {
+    if (opened) return; opened = true;
+    unlockAudio(); muteBtn.style.display = 'block';
+    preloadDiary();
+    const env = $('#env'); env.classList.add('opening');
+    $('#tapHint').style.visibility = 'hidden';
+    env.classList.add('open');
+    await wait(650);
+    env.classList.add('out');
+    await wait(1100);
+    show('s-scratch'); initFoil();
+  });
+
+  /* ---------- 2. scratch ---------- */
+  function initFoil(){
+    const cv = $('#foil'), card = $('#scard');
+    const r = cv.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = r.width * dpr; cv.height = r.height * dpr;
+    const ctx = cv.getContext('2d'); ctx.scale(dpr, dpr);
+    const W = r.width, H = r.height;
+    const g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#ff7cc0'); g.addColorStop(.35, '#ff2e97'); g.addColorStop(.55, '#b9ff9c');
+    g.addColorStop(.75, '#39ff14'); g.addColorStop(1, '#ff9fd2');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    // holographic sheen + sparkles
+    for (let i = 0; i < 260; i++) {
+      ctx.fillStyle = `rgba(255,255,255,${Math.random()*.5})`;
+      const s = Math.random()*2.2 + .4; ctx.fillRect(Math.random()*W, Math.random()*H, s, s);
+    }
+    ctx.globalAlpha = .18;
+    for (let x = -H; x < W; x += 14) { ctx.strokeStyle = '#fff'; ctx.beginPath(); ctx.moveTo(x, H); ctx.lineTo(x + H, 0); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = 'rgba(40,0,30,.75)'; ctx.textAlign = 'center';
+    ctx.font = `700 ${Math.round(W/9)}px Caveat, cursive`; ctx.fillText('scratch me', W/2, H/2 + W/40);
+    ctx.font = `${Math.round(W/16)}px Caveat, cursive`; ctx.fillText('✦  ✦  ✦', W/2, H/2 + W/9);
+
+    ctx.globalCompositeOperation = 'destination-out';
+    const R = Math.max(22, W/14);
+    let down = false, last = null, done = false, strokes = 0;
+    const pos = e => { const b = cv.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+    const dab = (x, y) => {
+      ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI*2); ctx.fill();
+      if (last) { ctx.lineWidth = R*2; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(last[0], last[1]); ctx.lineTo(x, y); ctx.stroke(); }
+      last = [x, y];
+    };
+    cv.addEventListener('pointerdown', e => { down = true; last = null; cv.setPointerCapture(e.pointerId); dab(...pos(e)); $('#sHelp').style.visibility='hidden'; });
+    cv.addEventListener('pointermove', e => { if (!down || done) return; dab(...pos(e)); if (++strokes % 12 === 0) check(); });
+    const up = () => { down = false; last = null; check(); };
+    cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+    function check(){
+      if (done) return;
+      const d = ctx.getImageData(0, 0, cv.width, cv.height).data; let clear = 0, n = 0;
+      for (let i = 3; i < d.length; i += 4 * 37) { n++; if (d[i] < 40) clear++; }
+      if (clear / n > .45) reveal();
+    }
+    function reveal(){
+      done = true; card.classList.add('done'); burst(70);
+      setTimeout(() => { $('#sHelp').classList.add('hide'); $('#toDiary').classList.remove('hide'); $('#toDiary').classList.add('fadein'); }, 900);
+    }
+    // safety net: if nobody scratches in 12s, offer to peel it
+    setTimeout(() => { if (!done && strokes === 0) { const h = $('#sHelp'); h.style.visibility='visible'; h.textContent = 'go on, scratch… or tap here'; h.onclick = reveal; } }, 12000);
+  }
+  $('#toDiary').onclick = () => { show('s-diary'); layout(); };
+
+  /* ---------- 3. diary ---------- */
+  const N = 19, book = $('#book'), block = $('#block'), leaves = [];
+  let built = false, cur = 0, busy = false;
+  function preloadDiary(){
+    if (built) return; built = true;
+    for (let i = 0; i < N; i++) {
+      const leaf = document.createElement('div'); leaf.className = 'leaf';
+      leaf.innerHTML = '<div class="face front"><img alt="" src="img/p' + String(i).padStart(2,'0') + '.jpg"></div><div class="face back"></div>';
+      book.appendChild(leaf); leaves.push(leaf);
+    }
+  }
+  function thick(){ block.style.setProperty('--thick', Math.max(2, (N - cur) * .9) + 'px'); }
+  function layout(){
+    leaves.forEach((l, i) => {
+      l.style.zIndex = i < cur ? i : (N - i) + N;
+      l.classList.toggle('flipped', i < cur);
+      l.style.visibility = i < cur - 1 ? 'hidden' : 'visible';
+    });
+    thick();
+    $('#count').textContent = cur === 0 ? 'cover' : (cur === N - 1 ? 'the end' : cur + ' / ' + (N - 2));
+    $('#prev').disabled = cur === 0; $('#next').disabled = cur === N - 1;
+    if (cur === N - 1) { $('#toNotes').classList.remove('hide'); $('#skipDiary').classList.add('hide'); }
+  }
+  function go(dir){
+    if (busy) return; const t = cur + dir; if (t < 0 || t > N - 1) return;
+    busy = true; const leaf = dir > 0 ? leaves[cur] : leaves[cur - 1];
+    leaf.style.visibility = 'visible'; leaf.style.zIndex = 3 * N; leaf.classList.add('turning');
+    leaf.classList.toggle('flipped', dir > 0); cur = t; thick();
+    setTimeout(() => { leaf.classList.remove('turning'); layout(); busy = false; }, 500);
+    if (cur > 0) $('#dSub').style.opacity = 0;
+  }
+  $('#next').onclick = () => go(1); $('#prev').onclick = () => go(-1);
+  let sx = null, sy = null;
+  const stage = $('#stage');
+  stage.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; });
+  stage.addEventListener('pointerup', e => {
+    if (sx === null) return; const dx = e.clientX - sx, dy = e.clientY - sy;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
+    else if (Math.abs(dx) < 10 && Math.abs(dy) < 10) { const r = book.getBoundingClientRect(); go(e.clientX < r.left + r.width * .3 ? -1 : 1); }
+    sx = null;
+  });
+  document.addEventListener('keydown', e => {
+    if (!$('#s-diary').classList.contains('on')) return;
+    if (e.key === 'ArrowRight' || e.key === ' ') go(1); if (e.key === 'ArrowLeft') go(-1);
+  });
+  let notesStarted = false;
+  const toNotes = () => { if (notesStarted) return; notesStarted = true; show('notes'); runNotes(); };
+  $('#toNotes').onclick = toNotes; $('#skipDiary').onclick = toNotes;
+
+  /* ---------- 4. notes ---------- */
+  const notes = $('#notes');
+  let skip = null;  // tap anywhere to hurry the current pause
+  notes.addEventListener('click', e => { if (e.target.closest('button,#smiley,a')) return; if (skip) { const f = skip; skip = null; f(); } });
+  const pause = ms => new Promise(r => { const t = setTimeout(() => { skip = null; r(); }, ms); skip = () => { clearTimeout(t); r(); }; });
+
+  function sheet(){
+    const s = document.createElement('div'); s.className = 'sheet';
+    s.style.zIndex = 10 - notes.children.length;  // newer sheets sit underneath
+    notes.appendChild(s); return s;
+  }
+  // writes lines one after another; returns total time
+  function write(el, lines){
+    let t = 0;
+    lines.forEach(([txt, cls]) => {
+      const span = document.createElement('span');
+      span.className = 'hw w ' + (cls || ''); span.textContent = txt;
+      const d = Math.min(2.4, .35 + txt.length * .045);
+      span.style.setProperty('--d', d + 's'); span.style.setProperty('--t', t + 's');
+      el.appendChild(span); t += d + .15;
+    });
+    return t * 1000;
+  }
+  async function turnTo(from){
+    const next = sheet(); next.style.zIndex = 1; from.style.zIndex = 5;
+    await wait(30); from.classList.add('turn');
+    await wait(900); from.remove(); return next;
+  }
+
+  async function runNotes(){
+    notes.innerHTML = '';
+    let s = sheet();
+    const hint = document.createElement('div'); hint.className = 'tapnext'; hint.textContent = 'tap to hurry me up';
+
+    // page 1 — comes and goes
+    let m = document.createElement('div'); m.className = 'msg'; s.appendChild(m);
+    await wait(500);
+    await pause(write(m, [["Although I wasn't"], ["planning to celebrate", 'ind'], ["this year…"]]) + 1600);
+    m.classList.add('gone'); await wait(900); m.remove();
+
+    // page 1 continued
+    m = document.createElement('div'); m.className = 'msg'; s.appendChild(m); s.appendChild(hint);
+    await pause(write(m, [["But if you have"], ["that one person in life", ''], ["who looks forward to"], ["making a card for you…", ''], ["meticulously,", 'sm ind'], ["with so much love", 'sm ind'], ["and sincerity.", 'sm ind']]) + 2400);
+
+    // page turns
+    s = await turnTo(s);
+    m = document.createElement('div'); m.className = 'msg'; s.appendChild(m);
+    await wait(300);
+    await pause(write(m, [["The life is"], ["well lived…", 'ind']]) + 1300);
+    const m2 = document.createElement('div'); m2.className = 'msg'; m2.style.marginTop = '1.2em'; s.appendChild(m2);
+    await pause(write(m2, [["And you feel"], ["like celebrating…", 'ind']]) + 2000);
+
+    // last page
+    s = await turnTo(s);
+    s.style.justifyContent = 'flex-start';
+    const f = document.createElement('div'); f.className = 'msg final'; s.appendChild(f);
+    f.style.margin = 'auto 0';
+    await wait(300);
+    await wait(write(f, [["Come over,"], ["we celebrating", 'sm'], ["like we do every year…", 'sm']]) + 300);
+
+    const db = document.createElement('div'); db.className = 'datebox';
+    db.innerHTML = '<img class="people" src="people.jpg" alt="PEOPLE">';
+    f.appendChild(db);
+    const dt = document.createElement('div'); db.appendChild(dt);
+    await wait(80); db.querySelector('.people').classList.add('in');
+    await wait(500);
+    await wait(write(dt, [["17 Nov", 'xl'], ["Tuesday · sunset onwards", 'sm']]) + 500);
+
+    const sg = document.createElement('div'); f.appendChild(sg); sg.style.marginTop = '8px';
+    await wait(write(sg, [["With whole lotta love", 'sm'], ["PK", 'sig']]) + 400);
+
+    // the winking smiley
+    const gift = document.createElement('div'); gift.className = 'gift';
+    gift.innerHTML = smileySVG() + '<p>you know<br>I love gifts…</p>';
+    f.appendChild(gift);
+    await wait(60); gift.classList.add('in');
+    const sm = gift.querySelector('#smiley');
+    sm.addEventListener('click', laughNow);
+    await wait(1800);
+    laughNow();
+
+    const after = document.createElement('div'); after.className = 'after';
+    after.innerHTML =
+      '<a class="btn pink" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=' +
+      encodeURIComponent("PK's birthday") + '&dates=20261117T123000Z/20261117T183000Z&details=' +
+      encodeURIComponent('Another year, another invite. Sunset onwards. With whole lotta love, PK') + '">save the date</a>' +
+      '<button class="btn ghost" id="again">play it again ↺</button>';
+    f.appendChild(after);
+    await wait(1200); after.classList.add('in');
+    after.querySelector('#again').onclick = () => location.reload();
+  }
+
+  function smileySVG(){
+    return `<svg id="smiley" viewBox="0 0 100 100" aria-label="winking smiley — tap me">
+      <defs><radialGradient id="sg" cx="38%" cy="32%" r="70%"><stop offset="0" stop-color="#fff59a"/><stop offset=".55" stop-color="#ffd21f"/><stop offset="1" stop-color="#f2a300"/></radialGradient></defs>
+      <circle cx="50" cy="50" r="46" fill="url(#sg)" stroke="#7a3b00" stroke-width="2.5"/>
+      <ellipse cx="24" cy="62" rx="8" ry="5" fill="#ff2e97" opacity=".45"/><ellipse cx="76" cy="62" rx="8" ry="5" fill="#ff2e97" opacity=".45"/>
+      <g class="wink">
+        <ellipse cx="34" cy="42" rx="5" ry="7" fill="#3a1600"/><circle cx="35.5" cy="39.5" r="1.8" fill="#fff"/>
+        <path class="wink-eye" d="M60 46 Q70 38 80 46" fill="none" stroke="#3a1600" stroke-width="4" stroke-linecap="round"/>
+        <path d="M28 18 Q34 14 40 17" fill="none" stroke="#3a1600" stroke-width="3" stroke-linecap="round"/>
+        <path d="M30 64 Q52 82 74 60" fill="none" stroke="#3a1600" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M58 70 Q66 78 68 68 Z" fill="#ff5fa8"/>
+      </g>
+      <g class="laugh">
+        <path d="M24 38 L36 44 L24 50" fill="none" stroke="#3a1600" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M76 38 L64 44 L76 50" fill="none" stroke="#3a1600" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24 56 Q50 60 76 56 Q72 90 50 90 Q28 90 24 56 Z" fill="#5a0b1f" stroke="#3a1600" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M28 58 Q50 62 72 58 L71 64 Q50 67 29 64 Z" fill="#fff"/>
+        <path d="M36 82 Q50 72 64 82 Q57 89 50 89 Q43 89 36 82 Z" fill="#ff5f8f"/>
+        <path class="tear" style="--tx:-14px" d="M20 46 q-4 7 0 9 q4 -2 0 -9z" fill="#7fd8ff"/>
+        <path class="tear r" style="--tx:14px" d="M80 46 q-4 7 0 9 q4 -2 0 -9z" fill="#7fd8ff"/>
+      </g>
+    </svg>`;
+  }
+  let laughing = false;
+  function laughNow(){
+    const sm = $('#smiley'); if (!sm || laughing) return;
+    laughing = true; sm.classList.add('laughing'); burst(140);
+    let stopped = false;
+    const stop = () => { if (stopped) return; stopped = true; sm.classList.remove('laughing'); laughing = false; };
+    try {
+      laugh.currentTime = 0; laugh.muted = muted;
+      const p = laugh.play();
+      if (p) p.catch(() => setTimeout(stop, 4000));
+    } catch(e){ setTimeout(stop, 4000); }
+    laugh.onended = stop;
+    setTimeout(stop, 12500);
+  }
+
+  /* ---------- confetti ---------- */
+  const cc = $('#confetti'), cx = cc.getContext('2d'); let parts = [], raf = null;
+  function size(){ cc.width = innerWidth * devicePixelRatio; cc.height = innerHeight * devicePixelRatio; cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0); }
+  addEventListener('resize', size); size();
+  function burst(n){
+    const cols = ['#ff2e97','#39ff14','#ffffff','#ffd21f','#ff7cc0'];
+    for (let i = 0; i < n; i++) parts.push({ x: innerWidth/2 + (Math.random()-.5)*innerWidth*.5, y: innerHeight*.45, vx:(Math.random()-.5)*12, vy: -Math.random()*14 - 4, r: Math.random()*6+3, c: cols[i % cols.length], a: Math.random()*6, va:(Math.random()-.5)*.4, life: 0 });
+    if (!raf) tick();
+  }
+  function tick(){
+    cx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => p.life < 220 && p.y < innerHeight + 30);
+    parts.forEach(p => { p.life++; p.vy += .32; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.a += p.va;
+      cx.save(); cx.translate(p.x, p.y); cx.rotate(p.a); cx.fillStyle = p.c; cx.fillRect(-p.r/2, -p.r/4, p.r, p.r/2); cx.restore(); });
+    raf = parts.length ? requestAnimationFrame(tick) : null;
+  }
+})();
+</script>
+</body>
+</html>
