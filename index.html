@@ -231,19 +231,16 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
   position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
   padding: max(28px, env(safe-area-inset-top)) 28px max(28px, env(safe-area-inset-bottom));
   background:
+    repeating-linear-gradient(180deg, transparent 0 46px, rgba(0,90,0,.06) 46px 47px),
+    linear-gradient(90deg, transparent 0 9%, rgba(255,46,151,.22) 9% calc(9% + 2px), transparent calc(9% + 2px)),
     radial-gradient(120% 80% at 50% 40%, #6dff4a 0%, var(--green) 55%, #22d400 100%);
+  background-attachment: local, local, fixed;
   transform-origin:left center; transition: transform .9s cubic-bezier(.5,.05,.25,1), filter .9s ease;
   backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow-y:auto; overflow-x:hidden;
 }
-.sheet::before{ /* paper grain + faint diary rules */
-  content:""; position:absolute; inset:0; pointer-events:none;
-  background:
-    repeating-linear-gradient(180deg, transparent 0 46px, rgba(0,90,0,.10) 46px 47px),
-    linear-gradient(90deg, transparent 0 9%, rgba(255,46,151,.35) 9% calc(9% + 2px), transparent calc(9% + 2px));
-  opacity:.6;
-}
+
 .sheet::after{
-  content:""; position:absolute; inset:0; pointer-events:none; opacity:.22; mix-blend-mode:multiply;
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.22; mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .35  0 0 0 0 .1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 .sheet.turn{transform: rotateY(-120deg); filter:brightness(.6)}
@@ -302,10 +299,10 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .buzzwrap{display:flex; flex-direction:column; align-items:center; margin-top:18px; opacity:0; transform: scale(.6); transition: all .6s cubic-bezier(.3,1.6,.5,1)}
 .buzzwrap.in{opacity:1; transform:none}
 .buzzer{
-  width:clamp(130px, 38vw, 170px); aspect-ratio:1; border-radius:50%;
+  width:clamp(170px, 52vw, 230px); aspect-ratio:1; border-radius:50%;
   background: radial-gradient(circle at 38% 30%, #ff9fd2, var(--pink) 45%, #b8005f 100%);
   box-shadow: 0 10px 0 #7a0040, 0 14px 22px rgba(0,60,0,.35), 0 0 0 8px #3a0a26, 0 0 0 11px #ff7cc0;
-  color:#fff; font-family:'Caveat',cursive; font-weight:700; font-size: clamp(26px,7.4vw,34px); line-height:.95;
+  color:#fff; font-family:'Caveat',cursive; font-weight:700; font-size: clamp(36px,10.5vw,48px); line-height:.92;
   text-shadow: 0 2px 0 rgba(90,0,45,.6);
   animation: blink 0.9s ease-in-out infinite;
   transition: transform .08s ease, box-shadow .08s ease;
@@ -317,7 +314,14 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .buzzer:active, .buzzer.pressed{transform: translateY(8px); box-shadow: 0 2px 0 #7a0040, 0 4px 10px rgba(0,60,0,.35), 0 0 0 8px #3a0a26, 0 0 0 11px #ff7cc0, 0 0 60px rgba(255,46,151,1)}
 .buzzer.pressed{animation: buzzshake .06s linear 10}
 @keyframes buzzshake{0%{translate:-3px 0}50%{translate:3px 0}100%{translate:0 0}}
-.buzz-note{margin-top:22px; font-family:var(--hand); font-weight:700; font-size:24px; color:rgba(120,0,60,.75)}
+.buzz-note{margin-top:24px; font-family:var(--hand); font-weight:700; font-size: clamp(22px,6vw,28px); color:rgba(120,0,60,.8)}
+.buzz-cue{font-family:var(--hand); font-weight:700; color:var(--pink-ink); text-align:center; line-height:1.05;
+  font-size: clamp(28px,7.6vw,38px); margin-bottom:16px}
+.buzz-cue b{display:block; font-size: clamp(40px,11vw,56px); color:#fff; background:var(--pink); padding:2px 16px 6px; border-radius:14px;
+  margin-top:6px; box-shadow:0 4px 0 #a3004f; animation: cueblink .9s steps(2,jump-none) infinite}
+.buzz-cue i{display:block; font-style:normal; font-size:40px; margin-top:6px; animation: bounce .7s ease-in-out infinite}
+@keyframes cueblink{50%{background:#a3004f}}
+@keyframes bounce{50%{transform:translateY(8px)}}
 .after{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:18px; opacity:0; transition: opacity .8s ease}
 .after.in{opacity:1}
 .after .btn{font-size:20px; padding:8px 18px}
@@ -403,7 +407,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
   /* ---------- sound ---------- */
   const laugh = $('#laugh'); let muted = false;
   const muteBtn = $('#mute');
-  muteBtn.onclick = () => { muted = !muted; laugh.muted = muted; try { document.getElementById('music').muted = muted; } catch(e){} muteBtn.textContent = muted ? '🔇' : '🔊'; };
+  muteBtn.onclick = () => { muted = !muted; laugh.muted = muted; try { const mu = document.getElementById('music'); if (mu && (musicOn || !primed)) mu.muted = muted; } catch(e){} muteBtn.textContent = muted ? '🔇' : '🔊'; };
   function unlockAudio(){
     try { laugh.muted = true; const p = laugh.play(); if (p) p.then(() => { laugh.pause(); laugh.currentTime = 0; laugh.muted = muted; }).catch(() => { laugh.muted = muted; }); } catch(e){}
   }
@@ -455,9 +459,9 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
       if (last) { ctx.lineWidth = R*2; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(last[0], last[1]); ctx.lineTo(x, y); ctx.stroke(); }
       last = [x, y];
     };
-    cv.addEventListener('pointerdown', e => { musicStart(); down = true; last = null; cv.setPointerCapture(e.pointerId); dab(...pos(e)); $('#sHelp').style.visibility='hidden'; });
-    cv.addEventListener('pointermove', e => { if (!down || done) return; dab(...pos(e)); if (++strokes % 12 === 0) check(); });
-    const up = () => { down = false; last = null; check(); };
+    cv.addEventListener('pointerdown', e => { musicPrime(); scratchSound(true); down = true; last = null; cv.setPointerCapture(e.pointerId); dab(...pos(e)); $('#sHelp').style.visibility='hidden'; });
+    cv.addEventListener('pointermove', e => { if (!down || done) return; const q = pos(e); if (last) scratchSound(true, Math.hypot(q[0]-last[0], q[1]-last[1])); dab(...q); if (++strokes % 12 === 0) check(); });
+    const up = () => { down = false; last = null; scratchSound(false); check(); };
     cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
     function check(){
       if (done) return;
@@ -466,7 +470,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
       if (clear / n > .45) reveal();
     }
     function reveal(){
-      done = true; card.classList.add('done'); burst(70);
+      done = true; card.classList.add('done'); burst(70); scratchSound(false); musicStart();
       setTimeout(() => { $('#sHelp').classList.add('hide'); $('#toDiary').classList.remove('hide'); $('#toDiary').classList.add('fadein'); }, 900);
     }
     // safety net: if nobody scratches in 12s, offer to peel it
@@ -623,11 +627,14 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 
     // the buzzer
     await wait(2200);
-    musicFade(0, 1800, true);
+    if (musicOn) musicFade(0, 1800, true);
     const bz = document.createElement('div'); bz.className = 'buzzwrap';
-    bz.innerHTML = '<button class="buzzer" id="buzz"><span>I\'M<br>COMING!</span></button><div class="buzz-note" id="buzzNote">press the buzzer to tell PK</div>';
+    bz.innerHTML = '<div class="buzz-cue">To confirm you\'re coming,<br><b>press the buzzer!</b><i>👇</i></div>' +
+      '<button class="buzzer" id="buzz"><span>I\'M<br>COMING!</span></button>' +
+      '<div class="buzz-note" id="buzzNote">it sends PK a WhatsApp</div>';
     f.appendChild(bz);
     await wait(60); bz.classList.add('in');
+    setTimeout(() => { try { bz.scrollIntoView({behavior:'smooth', block:'center'}); } catch(e){} }, 400);
     bz.querySelector('#buzz').onclick = pressBuzzer;
 
     const after = document.createElement('div'); after.className = 'after';
@@ -641,12 +648,43 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
     after.querySelector('#again').onclick = () => location.reload();
   }
 
+  /* ---------- scratch sound ---------- */
+  let sAC = null, sGain = null, sOff = null;
+  function scratchSound(on, speed){
+    try {
+      if (!sAC) {
+        const AC = window.AudioContext || window.webkitAudioContext; sAC = new AC();
+        const len = sAC.sampleRate * 2, buf = sAC.createBuffer(1, len, sAC.sampleRate), d = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (Math.random() < .08 ? 1 : .45);
+        const src = sAC.createBufferSource(); src.buffer = buf; src.loop = true;
+        const bp = sAC.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 3200; bp.Q.value = .8;
+        const hp = sAC.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 900;
+        sGain = sAC.createGain(); sGain.gain.value = 0;
+        src.connect(bp); bp.connect(hp); hp.connect(sGain); sGain.connect(sAC.destination); src.start();
+      }
+      if (sAC.state === 'suspended') sAC.resume();
+      const t = sAC.currentTime;
+      const level = (!on || muted) ? 0 : Math.min(.55, .12 + (speed || 0) * .02);
+      sGain.gain.cancelScheduledValues(t); sGain.gain.setTargetAtTime(level, t, .02);
+      clearTimeout(sOff);
+      if (on) sOff = setTimeout(() => { try { sGain.gain.setTargetAtTime(0, sAC.currentTime, .04); } catch(e){} }, 90);
+    } catch(e){}
+  }
+
   /* ---------- Elvis Lobo guitar: starts on the first scratch, fades away when the buzzer appears ---------- */
   const music = $('#music'); let musicOn = false, fadeT = null;
-  function musicStart(){
+  let primed = false;
+  function musicPrime(){            // called inside the first touch so the browser lets it play later
+    if (primed) return; primed = true;
+    try { music.muted = true; music.volume = 0; const p = music.play(); if (p) p.catch(() => { primed = false; }); } catch(e){}
+  }
+  function musicStart(){            // the picture is fully scratched — in comes Elvis
     if (musicOn) return; musicOn = true;
-    try { music.volume = 0; music.muted = muted; const p = music.play(); if (p) p.catch(() => {}); } catch(e){}
-    musicFade(.85, 1500);
+    try {
+      music.currentTime = 0; music.volume = 0; music.muted = muted;
+      if (music.paused) { const p = music.play(); if (p) p.catch(() => {}); }
+    } catch(e){}
+    musicFade(.85, 1800);
   }
   function musicFade(to, ms, stopAfter){
     clearInterval(fadeT); const from = music.volume, t0 = performance.now();
@@ -658,7 +696,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
   }
 
   /* ---------- the buzzer ---------- */
-  const PK_WHATSAPP = '';   // PK's WhatsApp number with country code, digits only, e.g. '919800000000'
+  const PK_WHATSAPP = '919849690077';   // PK's WhatsApp, country code + digits only
   function buzzSound(){
     try {
       const AC = window.AudioContext || window.webkitAudioContext; const ac = new AC();
@@ -671,7 +709,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
       const t = ac.currentTime; g.gain.setValueAtTime(muted ? 0 : .45, t); g.gain.setValueAtTime(muted ? 0 : .45, t + .75); g.gain.linearRampToValueAtTime(0, t + .85);
       [o, o2, lfo].forEach(x => { x.start(t); x.stop(t + .9); });
     } catch(e){}
-    try { navigator.vibrate && navigator.vibrate([300, 60, 300]); } catch(e){}
+    try { navigator.vibrate && navigator.vibrate([400, 80, 400, 80, 600]); } catch(e){}
   }
   function pressBuzzer(){
     const b = $('#buzz'); b.classList.add('pressed'); buzzSound(); burst(160);
@@ -679,7 +717,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
     const msg = 'Yess, Bruh, I am coming...' + (guest ? ' — ' + guest : '');
     const url = PK_WHATSAPP ? 'https://wa.me/' + PK_WHATSAPP + '?text=' + encodeURIComponent(msg)
                             : 'https://wa.me/?text=' + encodeURIComponent(msg);
-    $('#buzzNote').textContent = 'see you on the 17th! 💗';
+    $('#buzzNote').textContent = 'Bzzzz! See you on the 17th 💗';
+    const cue = document.querySelector('.buzz-cue'); if (cue) cue.style.visibility = 'hidden';
     setTimeout(() => { b.classList.remove('pressed'); location.href = url; }, 950);
   }
 
