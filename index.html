@@ -399,6 +399,21 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const show = id => { document.querySelectorAll('.scene').forEach(s => s.classList.toggle('on', s.id === id)); };
 
+  /* ---------- private open counter (nothing shown on the page) ----------
+     Count: https://abacus.jasoncameron.dev/get/pkbday26-k7q2x/opens
+     PK's phone opts out once by opening the invite with ?me=pk (remembered in this browser). */
+  try {
+    const qs = new URLSearchParams(location.search);
+    if (qs.get('me') === 'pk') {
+      localStorage.setItem('pk_me', '1');
+      qs.delete('me');
+      history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs : '') + location.hash);
+    }
+    if (localStorage.getItem('pk_me') !== '1') {
+      fetch('https://abacus.jasoncameron.dev/hit/pkbday26-k7q2x/opens', {mode: 'no-cors', keepalive: true}).catch(() => {});
+    }
+  } catch(e){}
+
   /* ---------- guest name (?to=Name) ---------- */
   let guest = '';
   try { guest = (new URLSearchParams(location.search).get('to') || '').trim().slice(0, 40); } catch(e){}
